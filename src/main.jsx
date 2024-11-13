@@ -3,19 +3,21 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import Route from './Components/Router/Router.jsx';
-import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, TwitterAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, TwitterAuthProvider } from "firebase/auth";
 import auth from './firebase/firebase.init.js';
 
 export const authContext = createContext();
 
 function App() {
   const [user, setuser] = useState(null);
+  const [loading, setLoading] = useState(true)
 
   const googleProvider = new GoogleAuthProvider();
   const githubProvaider = new GithubAuthProvider();
   const twitterProbaider = new TwitterAuthProvider();
 
   const handleGoogleLogin = () => {
+    setLoading(true)
     signInWithPopup(auth, googleProvider)
       .then(result => {
         setuser(result.user);
@@ -24,6 +26,7 @@ function App() {
   };
 
   const handalGithubLogin = () => {
+    setLoading(true)
     signInWithPopup(auth, githubProvaider)
       .then(result => {
         setuser(result.user);
@@ -32,6 +35,7 @@ function App() {
   };
 
   const handalTwitterLogin = () => {
+    setLoading(true)
     signInWithPopup(auth, twitterProbaider)
       .then(result => {
         setuser(result.user);
@@ -41,7 +45,7 @@ function App() {
 
 
   const handalRegister = (email, password) => {
-
+    setLoading(true)
     createUserWithEmailAndPassword(auth, email, password)
       .then(result => {
         console.log(result.user);
@@ -51,6 +55,17 @@ function App() {
       })
   }
 
+  const handalLogin = (email, password) => {
+    setLoading(true)
+    signInWithEmailAndPassword(auth, email, password)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log('Error', error);
+
+      })
+  }
 
 
   useEffect(() => {
@@ -60,7 +75,13 @@ function App() {
 
   useEffect(() => {
     const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
-      setuser(currentUser);
+      if (currentUser) {
+        setuser(currentUser);
+      }
+      else {
+        setuser(null)
+      }
+      setLoading(false)
     })
     return () => {
       unsubcribe()
@@ -69,6 +90,7 @@ function App() {
   }, []);
 
   const handalSignOut = () => {
+    setLoading(true)
     signOut(auth)
       .then(reasult => {
         console.log(reasult);
@@ -82,7 +104,9 @@ function App() {
     handalGithubLogin,
     handalTwitterLogin,
     handalSignOut,
-    handalRegister
+    handalRegister,
+    handalLogin,
+    loading,
   };
 
   return (

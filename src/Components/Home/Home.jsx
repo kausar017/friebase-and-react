@@ -21,16 +21,7 @@ const Home = () => {
                 <button onClick={handalSignOut} className="btn btn-outline btn-error">Sign Out</button>
             </div>
 
-            {
-                user && (
-                    <div className="card w-96 mx-auto text-center">
-                        <img src={user.photoURL} alt="" />
-                        <h1>{user.displayName}</h1>
-                        <h5>{user.email}</h5>
-                        <h4>{user.providerId}</h4>
-                    </div>
-                )
-            }
+            
 
         </>
     );

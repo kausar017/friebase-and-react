@@ -9,6 +9,8 @@ import About from '../About/About';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import ErrorHandal from '../ErrorHandal/ErrorHandal';
+import Profile from '../Profile/Profile';
+import PrivetRout from '../PrivetRoute/PrivetRout';
 
 const Route = () => {
 
@@ -20,7 +22,7 @@ const Route = () => {
             children: [
                 {
                     path: '/',
-                    element: <Home/>,
+                    element: <Home />,
                 },
                 {
                     path: '/about',
@@ -33,6 +35,12 @@ const Route = () => {
                 {
                     path: '/login',
                     element: <Login />
+                },
+                {
+                    path: 'profile',
+                    element: <PrivetRout>
+                        <Profile></Profile>
+                    </PrivetRout>
                 }
             ]
         },

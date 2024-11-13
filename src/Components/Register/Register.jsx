@@ -18,7 +18,18 @@ const Register = () => {
         const user = event.target.user.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
-        
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters");
+            return;
+        }
+        if (/^(?=.*[a-z])(?=.*[A-Z])(?=(.*\d){2,})(?=.*[$#%&]).+$/.test(password)) {
+            alert("Valid password");
+            return;
+        } 
+
+
+
+
         console.log(user, email, password);
         handalRegister(email, password)
 
@@ -51,7 +62,7 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" name="password" placeholder="password" className="input input-bordered" required />
+                                <input type="text" name="password" placeholder="password" className="input input-bordered" required />
                                 <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
